@@ -8,7 +8,7 @@ from fastapi.templating import Jinja2Templates
 
 app=FastAPI()
 
-templates = Jinja2Templates(directory="flat_project/inference/templates")
+templates = Jinja2Templates(directory="inference/templates")
 
 def map_minutes(minutes):
     if minutes <= 10: return 3
