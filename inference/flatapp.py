@@ -1,5 +1,4 @@
 from fastapi import FastAPI, Form, Request
-from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles 
 import uvicorn
 import joblib
@@ -8,6 +7,8 @@ import os
 from fastapi.templating import Jinja2Templates
 
 app=FastAPI()
+
+templates = Jinja2Templates(directory="flat_project/inference/templates")
 
 def map_minutes(minutes):
     if minutes <= 10: return 3
