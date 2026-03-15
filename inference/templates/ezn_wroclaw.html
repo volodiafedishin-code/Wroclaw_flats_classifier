@@ -735,7 +735,7 @@
     
         if (response.ok) {
             const data = await response.json();
-            resultDiv.innerHTML = data.prediction_text;
+            resultDiv.innerHTML = data.FLAT;
         } else {
             resultDiv.innerHTML = "Bląd na serwerze ❌";
         }
