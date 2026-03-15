@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EZN Technikum Nr 10 – Wrocław Rental Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:       #0b0f1a;
+      --surface:  #111827;
+      --card:     #161d2e;
+      --border:   #1e2d45;
+      --accent:   #f4a11d;
+      --accent2:  #4fc3f7;
+      --green:    #4ade80;
+      --red:      #f87171;
+      --text:     #e8edf5;
+      --muted:    #7a8ba6;
+      --font-h:   'Syne', sans-serif;
+      --font-b:   'DM Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-b);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* ─── NOISE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: .4;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 3rem;
+      background: rgba(11,15,26,.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--font-h);
+      font-weight: 800; font-size: 1.1rem;
+      color: var(--accent);
+      letter-spacing: .04em;
+    }
+    .nav-logo span { color: var(--text); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: .88rem; letter-spacing: .06em; text-transform: uppercase;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative; overflow: hidden;
+      min-height: 92vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 6rem 3rem 4rem;
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(244,161,29,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(244,161,29,.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    }
+    .hero-glow {
+      position: absolute; top: -120px; left: -80px;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(244,161,29,.18) 0%, transparent 70%);
+      filter: blur(40px);
+    }
+    .hero-glow2 {
+      position: absolute; bottom: -100px; right: 0;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(79,195,247,.12) 0%, transparent 70%);
+      filter: blur(40px);
+    }
+    .hero-tag {
+      display: inline-block;
+      background: rgba(244,161,29,.12);
+      border: 1px solid rgba(244,161,29,.3);
+      color: var(--accent);
+      font-size: .75rem; letter-spacing: .12em; text-transform: uppercase;
+      padding: .3rem .9rem; border-radius: 2rem;
+      margin-bottom: 1.5rem;
+      width: fit-content;
+    }
+    h1 {
+      font-family: var(--font-h);
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -.02em;
+      max-width: 760px;
+    }
+    h1 em { font-style: normal; color: var(--accent); }
+    .hero-sub {
+      margin-top: 1.5rem;
+      max-width: 520px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+    .hero-cta {
+      margin-top: 2.5rem;
+      display: flex; gap: 1rem; flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .75rem 1.8rem; border-radius: .5rem;
+      font-family: var(--font-b); font-size: .9rem; font-weight: 500;
+      cursor: pointer; border: none; text-decoration: none;
+      transition: all .2s;
+    }
+    .btn-primary {
+      background: var(--accent); color: #0b0f1a;
+    }
+    .btn-primary:hover { background: #f8b94d; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(244,161,29,.35); }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    .hero-stats {
+      margin-top: 4rem;
+      display: flex; gap: 3rem; flex-wrap: wrap;
+    }
+    .stat { display: flex; flex-direction: column; }
+    .stat-num {
+      font-family: var(--font-h); font-size: 2rem; font-weight: 800;
+      color: var(--accent);
+    }
+    .stat-label { font-size: .8rem; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+
+    /* ─── SECTIONS ─── */
+    section { padding: 5rem 3rem; position: relative; z-index: 1; }
+
+    .section-tag {
+      font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: .8rem;
+    }
+    h2 {
+      font-family: var(--font-h);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700; line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    h2 em { font-style: normal; color: var(--accent); }
+    .section-desc { color: var(--muted); max-width: 540px; font-size: .97rem; margin-bottom: 3rem; }
+
+    /* ─── SCHOOL SECTION ─── */
+    #school { background: var(--surface); }
+    .school-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .school-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 1.8rem;
+      transition: border-color .2s, transform .2s;
+    }
+    .school-card:hover { border-color: rgba(244,161,29,.4); transform: translateY(-3px); }
+    .school-card-icon {
+      width: 44px; height: 44px; border-radius: .6rem;
+      background: rgba(244,161,29,.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 1rem;
+    }
+    .school-card h3 {
+      font-family: var(--font-h); font-size: 1.1rem; font-weight: 700;
+      margin-bottom: .5rem;
+    }
+    .school-card p { color: var(--muted); font-size: .9rem; line-height: 1.6; }
+
+    .school-info-box {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, rgba(244,161,29,.08), rgba(79,195,247,.06));
+      border: 1px solid rgba(244,161,29,.2);
+      border-radius: 1rem;
+      padding: 2rem;
+      display: flex; gap: 3rem; flex-wrap: wrap;
+    }
+    .info-item { display: flex; flex-direction: column; gap: .3rem; }
+    .info-label { font-size: .75rem; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+    .info-value { font-family: var(--font-h); font-weight: 600; font-size: 1rem; }
+
+    /* ─── RENTALS ─── */
+    #rentals {}
+    .rentals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .rental-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 1.1rem;
+      overflow: hidden;
+      transition: all .25s;
+      position: relative;
+    }
+    .rental-card:hover { border-color: rgba(79,195,247,.4); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,.4); }
+    .rental-img {
+      width: 100%; height: 180px;
+      background: var(--surface);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+      position: relative; overflow: hidden;
+    }
+    .rental-badge {
+      position: absolute; top: 12px; right: 12px;
+      font-size: .7rem; letter-spacing: .06em; text-transform: uppercase;
+      padding: .25rem .7rem; border-radius: 2rem; font-weight: 500;
+    }
+    .badge-good { background: rgba(74,222,128,.15); border: 1px solid rgba(74,222,128,.3); color: var(--green); }
+    .badge-check { background: rgba(248,180,77,.12); border: 1px solid rgba(248,180,77,.3); color: var(--accent); }
+    .badge-ai {
+      background: rgba(79,195,247,.12); border: 1px solid rgba(79,195,247,.3);
+      color: var(--accent2);
+      font-size: .65rem;
+    }
+    .rental-body { padding: 1.3rem; }
+    .rental-price {
+      font-family: var(--font-h); font-weight: 700; font-size: 1.4rem;
+      color: var(--accent);
+    }
+    .rental-price span { font-size: .8rem; font-weight: 400; color: var(--muted); }
+    .rental-title { font-weight: 500; margin: .35rem 0 .2rem; font-size: .97rem; }
+    .rental-loc { font-size: .82rem; color: var(--muted); margin-bottom: .9rem; }
+    .rental-tags { display: flex; gap: .4rem; flex-wrap: wrap; }
+    .rtag {
+      font-size: .72rem; padding: .2rem .6rem; border-radius: .3rem;
+      background: rgba(255,255,255,.05); border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    /* ─── AI CLASSIFIER SECTION ─── */
+    #classifier {
+      background: var(--surface);
+    }
+    .classifier-wrapper {
+      background: var(--card);
+      border: 2px dashed rgba(79,195,247,.35);
+      border-radius: 1.5rem;
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .classifier-wrapper::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(79,195,247,.06), transparent 70%);
+      pointer-events: none;
+    }
+    .classifier-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;
+    }
+    .classifier-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(79,195,247,.1); border: 1px solid rgba(79,195,247,.3);
+      color: var(--accent2); font-size: .78rem; letter-spacing: .08em;
+      text-transform: uppercase; padding: .4rem 1rem; border-radius: 2rem;
+    }
+    .ai-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--accent2);
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .5; transform: scale(0.8); }
+    }
+    .classifier-placeholder {
+      background: rgba(0,0,0,.25);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 3rem 2rem;
+      text-align: center;
+      display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
+    }
+    .placeholder-icon {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: rgba(79,195,247,.1);
+      border: 2px solid rgba(79,195,247,.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+    }
+    .placeholder-title {
+      font-family: var(--font-h); font-size: 1.4rem; font-weight: 700;
+    }
+    .placeholder-desc { color: var(--muted); font-size: .9rem; max-width: 420px; }
+    .placeholder-code {
+      background: rgba(0,0,0,.4); border: 1px solid var(--border);
+      border-radius: .6rem; padding: 1rem 1.5rem;
+      font-family: 'Courier New', monospace; font-size: .82rem;
+      color: var(--accent2); text-align: left; width: 100%; max-width: 500px;
+      line-height: 1.8;
+    }
+    .placeholder-code .comment { color: var(--muted); }
+    .placeholder-code .keyword { color: var(--accent); }
+    .placeholder-code .string { color: var(--green); }
+
+    .classifier-features {
+      margin-top: 2rem;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .cf-item {
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--border);
+      border-radius: .8rem;
+      padding: 1.1rem;
+      display: flex; align-items: flex-start; gap: .8rem;
+    }
+    .cf-icon { font-size: 1.2rem; margin-top: .1rem; flex-shrink: 0; }
+    .cf-label { font-size: .88rem; font-weight: 500; margin-bottom: .2rem; }
+    .cf-sub { font-size: .78rem; color: var(--muted); }
+
+    /* ─── CRITERIA ─── */
+    #criteria {}
+    .criteria-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem; margin-top: 2rem;
+    }
+    .criterion {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 1rem; padding: 1.5rem;
+      transition: all .2s;
+    }
+    .criterion:hover { border-color: rgba(74,222,128,.35); }
+    .criterion-icon { font-size: 1.6rem; margin-bottom: .8rem; }
+    .criterion h4 { font-family: var(--font-h); font-size: .95rem; font-weight: 700; margin-bottom: .4rem; }
+    .criterion p { font-size: .83rem; color: var(--muted); line-height: 1.5; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      font-size: .82rem; color: var(--muted);
+    }
+    footer strong { color: var(--text); }
+
+    /* ─── ANIMATIONS ─── */
+    .fade-in {
+      opacity: 0; transform: translateY(24px);
+      animation: fadeUp .7s ease forwards;
+    }
+    .fade-in:nth-child(2) { animation-delay: .1s; }
+    .fade-in:nth-child(3) { animation-delay: .2s; }
+    .fade-in:nth-child(4) { animation-delay: .3s; }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 700px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 3.5rem 1.5rem; }
+      .school-grid { grid-template-columns: 1fr; }
+      .hero { padding: 5rem 1.5rem 3rem; }
+      footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">EZN <span>T-10 · Wrocław</span></div>
+  <ul class="nav-links">
+    <li><a href="#school">School</a></li>
+    <li><a href="#criteria">Criteria</a></li>
+    <li><a href="#rentals">Rentals</a></li>
+    <li><a href="#classifier">AI Classifier</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+
+  <div class="hero-tag fade-in">🏫 Wrocław Student Housing Guide</div>
+  <h1 class="fade-in">Find the <em>right flat</em> near Technikum Nr&nbsp;10</h1>
+  <p class="hero-sub fade-in">Browse Wrocław rental offers filtered and rated specifically for EZN Technikum Nr 10 students — powered by a Python AI classifier.</p>
+  <div class="hero-cta fade-in">
+    <a href="#rentals" class="btn btn-primary">🏠 Browse Rentals</a>
+    <a href="#classifier" class="btn btn-outline">🤖 AI Classifier</a>
+  </div>
+
+  <div class="hero-stats fade-in">
+    <div class="stat">
+      <span class="stat-num">24+</span>
+      <span class="stat-label">Active listings</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">~4 km</span>
+      <span class="stat-label">Average distance</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">1800 PLN</span>
+      <span class="stat-label">Avg monthly rent</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">AI</span>
+      <span class="stat-label">Powered rating</span>
+    </div>
+  </div>
+</section>
+
+<!-- SCHOOL -->
+<section id="school">
+  <p class="section-tag">About the school</p>
+  <h2>EZN Technikum <em>Nr 10</em>, Wrocław</h2>
+  <p class="section-desc">Elektroniczne Zakłady Naukowe – a leading technical secondary school in Wrocław offering programmes in IT, electronics, and mechatronics.</p>
+
+  <div class="school-grid">
+    <div class="school-info-box">
+      <div class="info-item">
+        <span class="info-label">Full name</span>
+        <span class="info-value">EZN Technikum Nr 10</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">City</span>
+        <span class="info-value">Wrocław, Lower Silesia</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Address</span>
+        <span class="info-value">ul. Skarbowców 4, 53-025</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Type</span>
+        <span class="info-value">Public Technical School</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Duration</span>
+        <span class="info-value">5-year programme</span>
+      </div>
+    </div>
+
+    <div class="school-card">
+      <div class="school-card-icon">💻</div>
+      <h3>IT & Computer Science</h3>
+      <p>Programming, networking, and software development in a hands-on technical environment with modern labs.</p>
+    </div>
+    <div class="school-card">
+      <div class="school-card-icon">⚡</div>
+      <h3>Electronics & Mechatronics</h3>
+      <p>Embedded systems, industrial automation, and electronic circuit design with certified professional instructors.</p>
+    </div>
+    <div class="school-card">
+      <div class="school-card-icon">🚌</div>
+      <h3>Transport Links</h3>
+      <p>Well connected by trams and buses — lines 7, 15, 20, 31 pass near the school, making commute straightforward from most districts.</p>
+    </div>
+    <div class="school-card">
+      <div class="school-card-icon">🕐</div>
+      <h3>School Hours</h3>
+      <p>Classes typically run 8:00–16:00. Students are advised to find housing within 30–45 min commute distance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CRITERIA -->
+<section id="criteria">
+  <p class="section-tag">What matters for students</p>
+  <h2>Key housing <em>criteria</em></h2>
+  <p class="section-desc">The AI classifier evaluates each rental listing against these criteria to determine suitability for an EZN T-10 student.</p>
+  <div class="criteria-grid">
+    <div class="criterion">
+      <div class="criterion-icon">📍</div>
+      <h4>Distance to School</h4>
+      <p>Under 5 km or ≤40 min by public transport is preferred.</p>
+    </div>
+    <div class="criterion">
+      <div class="criterion-icon">💰</div>
+      <h4>Affordable Rent</h4>
+      <p>Budget under 2,000 PLN/month including utilities for a room or small flat.</p>
+    </div>
+    <div class="criterion">
+      <div class="criterion-icon">🚌</div>
+      <h4>Public Transport</h4>
+      <p>Tram or bus stop within 10-minute walk. Direct or 1-change route to school.</p>
+    </div>
+    <div class="criterion">
+      <div class="criterion-icon">🛏️</div>
+      <h4>Suitable Size</h4>
+      <p>Room in shared flat or studio apartment. At least one workspace area.</p>
+    </div>
+    <div class="criterion">
+      <div class="criterion-icon">📶</div>
+      <h4>Internet Included</h4>
+      <p>Fast WiFi is essential for coursework and programming assignments.</p>
+    </div>
+    <div class="criterion">
+      <div class="criterion-icon">🏪</div>
+      <h4>Amenities Nearby</h4>
+      <p>Grocery stores, pharmacies, and a canteen or food spots within 500 m.</p>
+    </div>
+  </div>
+</section>
+
+<!-- RENTALS -->
+<section id="rentals">
+  <p class="section-tag">Rental listings</p>
+  <h2>Wrocław flat <em>offers</em></h2>
+  <p class="section-desc">Sample listings from the Wrocław rental market, pre-screened for student suitability. Add more listings or connect your data source below.</p>
+
+  <div class="rentals-grid">
+
+    <!-- Card 1 -->
+    <div class="rental-card">
+      <div class="rental-img" style="background: linear-gradient(135deg,#1e2d45,#111827);">
+        🏢
+        <span class="rental-badge badge-good">✔ Suitable</span>
+      </div>
+      <div class="rental-body">
+        <div class="rental-price">1 650 PLN <span>/ month</span></div>
+        <div class="rental-title">Room in shared flat – Krzyki</div>
+        <div class="rental-loc">📍 ul. Przyjaźni, Krzyki · 3.2 km from school</div>
+        <div class="rental-tags">
+          <span class="rtag">🚌 Tram 7 nearby</span>
+          <span class="rtag">WiFi</span>
+          <span class="rtag">Furnished</span>
+          <span class="rtag">2 roommates</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="rental-card">
+      <div class="rental-img" style="background: linear-gradient(135deg,#1e2d3a,#0d1a2b);">
+        🏠
+        <span class="rental-badge badge-good">✔ Suitable</span>
+      </div>
+      <div class="rental-body">
+        <div class="rental-price">1 900 PLN <span>/ month</span></div>
+        <div class="rental-title">Studio apartment – Fabryczna</div>
+        <div class="rental-loc">📍 ul. Grabiszyńska, Fabryczna · 4.1 km from school</div>
+        <div class="rental-tags">
+          <span class="rtag">🚃 Tram 15</span>
+          <span class="rtag">WiFi</span>
+          <span class="rtag">Own kitchen</span>
+          <span class="rtag">30m²</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="rental-card">
+      <div class="rental-img" style="background: linear-gradient(135deg,#2d1e1e,#1a0d0d);">
+        🏗️
+        <span class="rental-badge badge-check">⚠ Check</span>
+      </div>
+      <div class="rental-body">
+        <div class="rental-price">2 400 PLN <span>/ month</span></div>
+        <div class="rental-title">2-room flat – Śródmieście</div>
+        <div class="rental-loc">📍 ul. Świdnicka, Centre · 2.8 km from school</div>
+        <div class="rental-tags">
+          <span class="rtag">🚌 Multiple lines</span>
+          <span class="rtag">WiFi</span>
+          <span class="rtag">Above budget</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="rental-card">
+      <div class="rental-img" style="background: linear-gradient(135deg,#1a2a1e,#0d1a10);">
+        🏘️
+        <span class="rental-badge badge-good">✔ Suitable</span>
+      </div>
+      <div class="rental-body">
+        <div class="rental-price">1 500 PLN <span>/ month</span></div>
+        <div class="rental-title">Room – Gądów Mały</div>
+        <div class="rental-loc">📍 ul. Lotnicza, Gądów · 2.0 km from school</div>
+        <div class="rental-tags">
+          <span class="rtag">🚌 Bus 145</span>
+          <span class="rtag">WiFi</span>
+          <span class="rtag">Quiet area</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="rental-card">
+      <div class="rental-img" style="background: linear-gradient(135deg,#1e1e2d,#0d0d1a);">
+        🏙️
+        <span class="rental-badge badge-check">⚠ Check</span>
+      </div>
+      <div class="rental-body">
+        <div class="rental-price">2 100 PLN <span>/ month</span></div>
+        <div class="rental-title">Modern studio – Psie Pole</div>
+        <div class="rental-loc">📍 ul. Powstańców Śl., Psie Pole · 8.5 km from school</div>
+        <div class="rental-tags">
+          <span class="rtag">🚃 Tram 20</span>
+          <span class="rtag">WiFi</span>
+          <span class="rtag">Far from school</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 6 – AI placeholder -->
+    <div class="rental-card">
+      <div class="rental-img" style="background: linear-gradient(135deg,#0d1e2d,#061218); border: 2px dashed rgba(79,195,247,.3);">
+        ➕
+        <span class="rental-badge badge-ai">🤖 Add listing</span>
+      </div>
+      <div class="rental-body">
+        <div class="rental-price" style="color:var(--muted); font-size:1rem;">Your listing here</div>
+        <div class="rental-title" style="color:var(--muted);">Connect your data source</div>
+        <div class="rental-loc">Paste a URL or upload a CSV of listings</div>
+        <div class="rental-tags">
+          <span class="rtag" style="border-color:rgba(79,195,247,.3); color:var(--accent2);">+ Add data</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- AI CLASSIFIER -->
+<section id="classifier">
+  <p class="section-tag">Python AI Feature</p>
+  <h2>Rental <em>suitability</em> classifier</h2>
+
+  <div class="classifier-wrapper">
+    <div class="classifier-header">
+      <div>
+        <div class="classifier-badge">
+          <span class="ai-dot"></span>
+          AI Module — Ready for integration
+        </div>
+      </div>
+    </div>
+
+    <div class="classifier-placeholder">
+      <div class="placeholder-icon">🤖</div>
+      <div class="placeholder-title">Sprawdź mieszkanie</div>
+      <p class="placeholder-desc">Wpisz dane ogłoszenia, a AI oceni czy nadaje się dla ucznia EZN Technikum Nr 10.</p>
+
+      <form action="/predict" method="post" id="classifierForm" style="width:100%; max-width:480px; display:flex; flex-direction:column; gap:1.2rem; margin-top:.5rem;">
+        <div style="display:flex; flex-direction:column; gap:.4rem;">
+          <label style="font-size:.8rem; letter-spacing:.07em; text-transform:uppercase; color:var(--accent2);">Cena za miesiąc (PLN)</label>
+          <input type="number" name="price_mounth" placeholder="np. 1650"
+            style="width:100%; padding:.85rem 1rem; background:rgba(0,0,0,.35); border:1px solid var(--border); border-radius:.6rem; color:var(--text); font-family:var(--font-b); font-size:.95rem; outline:none; transition:border-color .2s;"
+            onfocus="this.style.borderColor='rgba(79,195,247,.5)'" onblur="this.style.borderColor='var(--border)'">
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:.4rem;">
+          <label style="font-size:.8rem; letter-spacing:.07em; text-transform:uppercase; color:var(--accent2);">Czas dojazdu do szkoły (minuty)</label>
+          <input type="number" name="minutes_to_school" placeholder="np. 25"
+            style="width:100%; padding:.85rem 1rem; background:rgba(0,0,0,.35); border:1px solid var(--border); border-radius:.6rem; color:var(--text); font-family:var(--font-b); font-size:.95rem; outline:none; transition:border-color .2s;"
+            onfocus="this.style.borderColor='rgba(79,195,247,.5)'" onblur="this.style.borderColor='var(--border)'">
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:.4rem;">
+          <label style="font-size:.8rem; letter-spacing:.07em; text-transform:uppercase; color:var(--accent2);">Wygląd mieszkania (1–100)</label>
+          <input type="number" name="fare" placeholder="np. 75" min="1" max="100"
+            style="width:100%; padding:.85rem 1rem; background:rgba(0,0,0,.35); border:1px solid var(--border); border-radius:.6rem; color:var(--text); font-family:var(--font-b); font-size:.95rem; outline:none; transition:border-color .2s;"
+            onfocus="this.style.borderColor='rgba(79,195,247,.5)'" onblur="this.style.borderColor='var(--border)'">
+        </div>
+
+        <button type="submit"
+          style="width:100%; padding:.9rem; background:var(--accent2); color:#0b0f1a; border:none; border-radius:.6rem; font-family:var(--font-b); font-size:.95rem; font-weight:600; cursor:pointer; transition:all .2s; letter-spacing:.02em;"
+          onmouseover="this.style.opacity='.85'; this.style.transform='translateY(-2px)'"
+          onmouseout="this.style.opacity='1'; this.style.transform='translateY(0)'">
+          🚀 Oblicz czy podchodzi?
+        </button>
+      </form>
+
+      <div id="result" style="margin-top:1rem; font-size:.95rem; font-weight:500; min-height:1.4rem;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <strong>EZN Technikum Nr 10 · Wrocław Rental Guide</strong><br>
+    Built for students of Elektroniczne Zakłady Naukowe
+  </div>
+  <div style="text-align:right;">
+    AI classifier module · Plug in your Python model above<br>
+    <span style="color:rgba(122,139,166,.5); font-size:.75rem;">© 2025 · For educational use</span>
+  </div>
+</footer>
+  <script>
+    const form = document.querySelector('form');
+    const resultDiv = document.getElementById('result');
+    
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        resultDiv.innerHTML = "Przetwarzanie... ⏳";
+    
+        // Автоматично збирає всі поля форми за їх атрибутом 'name'
+        const formData = new FormData(form);
+    
+        const response = await fetch('/predict', {
+            method: 'POST',
+            body: formData // Передаємо як FormData, а не JSON!
+        });
+    
+        if (response.ok) {
+            const data = await response.json();
+            resultDiv.innerHTML = data.prediction_text;
+        } else {
+            resultDiv.innerHTML = "Bląd na serwerze ❌";
+        }
+    };
+  </script>
+</body>
+</html>
