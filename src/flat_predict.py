@@ -1,6 +1,6 @@
 import joblib
 
-model = joblib.load(r'c:\Users\volod\ml_engineer\ml_basics\models\flats.pkl')
+model = joblib.load(r"C:\Users\volod\ml_engineer\ml_basics\flat_project\models\flats.pkl")
 
 price_mounth=int(input('Price: '))
 minutes_score=int(input('minutes to school: '))

@@ -9,7 +9,7 @@ from sklearn.metrics import classification_report
 
 
 
-df=pd.read_csv(r"C:\Users\volod\ml_engineer\ml_basics\data\flats.csv")
+df=pd.read_csv(r"C:\Users\volod\ml_engineer\ml_basics\flat_project\data\flats.csv")
 
 
 
@@ -42,5 +42,5 @@ predictions = pipeline.predict(X_test)
 print("Звіт про якість моделі:")
 print(classification_report(y_test, predictions))
 
-joblib.dump(pipeline, r"C:\Users\volod\ml_engineer\ml_basics\models\flats.pkl")
+joblib.dump(pipeline, r"C:\Users\volod\ml_engineer\ml_basics\flat_project\models\flats.pkl")
 print("\nМодель збережена як 'flats.pkl'. Роботу завершено! ✅")
