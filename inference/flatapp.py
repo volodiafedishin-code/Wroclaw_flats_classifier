@@ -8,7 +8,12 @@ import numpy as np
 import os
 from datetime import datetime
 from contextlib import asynccontextmanager
+import sqlite3
+import time
+import requests
 
+API_KEY = 'AIzaSyDxTk6XGncvu7gwfO-vCj6-5PW-7-I4dDw'
+BAZA_PATH=os.path.join('..','data','flats')
 # --- 1. НАЛАШТУВАННЯ БАЗИ ТА МОДЕЛІ ---
 DATABASE_URL = os.getenv("DATABASE_URL","sqlite:///./local_flat.db")
 engine = create_engine(DATABASE_URL)
@@ -19,6 +24,8 @@ class Prediction(Base):
     __tablename__ = "predictions"
     id = Column(Integer, primary_key=True, index=True)
     price_mounth = Column(Float)
+    flat_address =Column(String)
+    school_choice =Column(String)
     minutes_to_school = Column(Float)
     looks = Column(Float)
     prediction_result = Column(String)
@@ -34,6 +41,27 @@ def get_db():
         yield db
     finally:
         db.close()
+
+def pobierz_koordynaty(nazwa_uczelni):
+    """Wyciąga lat i lng z bazy danych dla podanej nazwy."""
+    conn = sqlite3.connect(BAZA_PATH)
+    c = conn.cursor()
+    # Szukamy nazwy (pamiętaj o .upper() wcześniej)
+    c.execute("SELECT lat, lng FROM punkty WHERE nazwa = ?", (nazwa_uczelni,))
+    wynik = c.fetchone()
+    conn.close()
+    return wynik
+
+def sprawdz_czas_dojazdu(start, cel_coords, api_key):
+    """Pyta Google Maps o czas dojazdu (tranzytem/autem)."""
+    lat, lng = cel_coords
+    url = f"https://maps.googleapis.com/maps/api/distancematrix/json?origins={start}&destinations={lat},{lng}&mode=transit&key={api_key}"
+    response = requests.get(url).json()
+
+    if response['status'] == 'OK':
+        return response['rows'][0]['elements'][0]['duration']['value']
+    else:
+        raise Exception("Błąd API")
 
 # --- 2. ІНІЦІАЛІЗАЦІЯ ДОДАТКА ---
 @asynccontextmanager
@@ -58,19 +86,24 @@ async def read_index(request: Request):
 @app.post("/predict")
 async def predict(
     price_mounth: float = Form(...), 
-    minutes_to_school: float = Form(...), 
+    flat_address:str=Form(...),
+    school_choice:str=Form(...),
     looks: float = Form(...),
     db: Session = Depends(get_db)
 ):
-    def map_minutes(m): return 3 if m <= 10 else 2 if m <= 30 else 1
-    X = np.array([[price_mounth, map_minutes(minutes_to_school), looks]])
+    school_cord=pobierz_koordynaty(school_choice)
+    minutes_to_school=sprawdz_czas_dojazdu(flat_address,school_cord,API_KEY)
+    minutes_to_school=round(minutes_to_school/60,2)
+    X = np.array([[price_mounth,(minutes_to_school), looks]])
     prediction = model.predict(X)[0]
     
     # Змінюємо текст на англійську
-    result_text = "Good for EZN student 🟢" if prediction == 1 else "Bad for EZN student 🔴"
+    result_text = "Good for student 🟢" if prediction == 1 else "Bad for student 🔴"
 
     new_log = Prediction(
         price_mounth=price_mounth,
+        flat_address=flat_address,
+        school_choice=school_choice,
         minutes_to_school=minutes_to_school,
         looks=looks,
         prediction_result=result_text,
