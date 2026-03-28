@@ -13,20 +13,13 @@ import time
 import requests
 
 API_KEY = 'AIzaSyDxTk6XGncvu7gwfO-vCj6-5PW-7-I4dDw'
-
+Base_dir = os.path.dirname(os.path.abspath(__file__))
+BAZA_PATH=os.path.join(Base_dir,'..','data','uczelnie.db')
 # --- 1. НАЛАШТУВАННЯ БАЗИ ТА МОДЕЛІ ---
 DATABASE_URL = os.getenv("DATABASE_URL","sqlite:///./local_flat.db")
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
-app = FastAPI(lifespan=lifespan)
-templates = Jinja2Templates(directory="inference/templates")
-
-# Завантаження ML моделі
-Base_dir = os.path.dirname(os.path.abspath(__file__))
-model_path = os.path.join(Base_dir, "..", "models", "flats.pkl")
-model = joblib.load(model_path)
-BAZA_PATH=os.path.join(Base_dir,'..','data','uczelnie.db')
 
 class Prediction(Base):
     __tablename__ = "predictions"
@@ -79,7 +72,13 @@ async def lifespan(app: FastAPI):
     init_db() # Створюємо таблиці при запуску
     yield
 
+app = FastAPI(lifespan=lifespan)
+templates = Jinja2Templates(directory="inference/templates")
 
+# Завантаження ML моделі
+
+model_path = os.path.join(Base_dir, "..", "models", "flats.pkl")
+model = joblib.load(model_path)
 
 # --- 3. МАРШРУТИ (ENDPOINTS) ---
 
