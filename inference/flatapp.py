@@ -13,7 +13,7 @@ import time
 import requests
 
 API_KEY = 'AIzaSyDxTk6XGncvu7gwfO-vCj6-5PW-7-I4dDw'
-BAZA_PATH=os.path.join('..','data','flats')
+BAZA_PATH=os.path.join('..','data')
 # --- 1. НАЛАШТУВАННЯ БАЗИ ТА МОДЕЛІ ---
 DATABASE_URL = os.getenv("DATABASE_URL","sqlite:///./local_flat.db")
 engine = create_engine(DATABASE_URL)
