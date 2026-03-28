@@ -52,6 +52,8 @@ def get_db():
 
 def pobierz_koordynaty(nazwa_uczelni):
     """Wyciąga lat i lng z bazy danych dla podanej nazwy."""
+    if not os.path.exists(BAZA_PATH):
+        print(f"❌ ПОМИЛКА: Файл бази не знайдено за шляхом: {os.path.abspath(BAZA_PATH)}")
     conn = sqlite3.connect(BAZA_PATH)
     c = conn.cursor()
     # Szukamy nazwy (pamiętaj o .upper() wcześniej)
