@@ -126,8 +126,8 @@ async def get_history(db: Session = Depends(get_db)):
     return [
         {
             "price": l.price_mounth, 
-            "address": l.address,      # <-- Додаємо адресу
-            "school": l.school_name,   # <-- Додаємо назву школи
+            "address": l.flat_address,      # <-- Додаємо адресу
+            "school": l.school_choice,   # <-- Додаємо назву школи
             "looks": l.looks,
             "result": l.prediction_result, 
             "date": l.created_at.strftime("%d.%m %H:%M")
