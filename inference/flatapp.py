@@ -57,6 +57,8 @@ def pobierz_koordynaty(nazwa_uczelni):
 
 def sprawdz_czas_dojazdu(start, cel_coords, api_key):
     """Pyta Google Maps o czas dojazdu (tranzytem/autem)."""
+    if "wrocław" not in start.lower():
+        start += ", Wrocław"
     lat, lng = cel_coords
     url = f"https://maps.googleapis.com/maps/api/distancematrix/json?origins={start}&destinations={lat},{lng}&mode=transit&key={api_key}"
     response = requests.get(url).json()
@@ -124,10 +126,10 @@ async def get_history(db: Session = Depends(get_db)):
     return [
         {
             "price": l.price_mounth, 
-            "minutes": l.minutes_to_school,
-            "looks":l.looks,
+            "address": l.address,      # <-- Додаємо адресу
+            "school": l.school_name,   # <-- Додаємо назву школи
+            "looks": l.looks,
             "result": l.prediction_result, 
             "date": l.created_at.strftime("%d.%m %H:%M")
-            
         } for l in logs
     ]
