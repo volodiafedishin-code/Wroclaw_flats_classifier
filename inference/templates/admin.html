@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel - Database</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="p-4 bg-light">
+    <div class="container bg-white p-4 shadow-sm rounded">
+        <h2 class="mb-4 text-primary">Повна база прогнозів 📊</h2>
+        <table class="table table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Дата</th>
+                    <th>Адреса квартири</th>
+                    <th>Обрана школа</th>
+                    <th>Ціна (міс)</th>
+                    <th>Хв до школи</th>
+                    <th>Результат</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for l in logs %}
+                <tr>
+                    <td>{{ l.id }}</td>
+                    <td>{{ l.created_at.strftime('%d.%m %Y %H:%M') }}</td>
+                    <td>{{ l.flat_address }}</td>
+                    <td>{{ l.school_choice }}</td>
+                    <td>{{ l.price_mounth }}</td>
+                    <td>{{ l.minutes_to_school }}</td>
+                    <td>{{ l.prediction_result }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

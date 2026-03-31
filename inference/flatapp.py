@@ -134,6 +134,14 @@ async def get_history(db: Session = Depends(get_db)):
         } for l in logs
     ]
 
+@app.get("/admin")
+async def admin_panel(request: Request, db: Session = Depends(get_db)):
+    all_logs = db.query(Prediction).order_by(Prediction.created_at.desc()).all()
+    return templates.TemplateResponse("admin.html", {
+        "request": request, 
+        "logs": all_logs
+    })
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))  # Беремо PORT від Render або 8000 локально
     import uvicorn
